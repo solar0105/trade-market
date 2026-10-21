@@ -1,0 +1,620 @@
+/* =========================================================
+   霜落行会 · 交易行 —— 样式
+   第一节：设计变量
+   第二节：基础与布局
+   第三节：顶栏 / 底栏
+   第四节：左侧标的
+   第五节：中间行情（报价 + K 线 + 盘口 + 成交）
+   第六节：右侧下单 / 委托 / 持仓
+   ========================================================= */
+
+/* ── 一、设计变量 ─────────────────────────────────── */
+:root {
+  --bg:        #16120E;
+  --panel:     #1B1611;
+  --panel-2:   #221B14;
+  --line:      #2C241B;
+  --line-soft: rgba(217, 165, 102, .12);
+
+  --ink:       #EDE4D6;
+  --ink-dim:   #A79684;
+  --ink-faint: #6E6052;
+
+  --copper:    #D9A566;
+  --buy:       #74B08D;
+  --sell:      #C86A52;
+
+  --font-ui:  "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+  --font-num: "Consolas", "Cascadia Mono", ui-monospace, monospace;
+}
+
+/* ── 二、基础与布局 ───────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 数字统一等宽、对齐 */
+.num {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+}
+
+.up   { color: var(--buy); }
+.down { color: var(--sell); }
+
+.spacer { flex: 1; }
+
+.app-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 236px minmax(0, 1fr) 304px;
+  min-height: 0;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* ── 三、顶栏 / 底栏 ──────────────────────────────── */
+.topbar {
+  height: 56px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 20px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+}
+
+.mark {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--copper);
+  color: var(--copper);
+  font-size: 14px;
+}
+
+.brand { display: flex; flex-direction: column; gap: 2px; margin-right: 6px; }
+.brand b    { font-size: 14px; font-weight: 600; letter-spacing: .04em; }
+.brand span { font-size: 10px; color: var(--ink-faint); letter-spacing: .14em; }
+
+.nav { display: flex; gap: 22px; margin-left: 12px; }
+.nav a {
+  color: var(--ink-faint);
+  font-size: 12.5px;
+  text-decoration: none;
+  padding: 5px 0;
+}
+.nav a.on { color: var(--ink); border-bottom: 1px solid var(--copper); }
+
+.wallet {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 13px;
+  border: 1px solid var(--line-soft);
+}
+.wallet .num { font-size: 15px; color: var(--copper); }
+
+.who { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--ink-dim); }
+
+.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--buy); }
+
+.footer {
+  height: 34px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  padding: 0 20px;
+  background: var(--panel);
+  border-top: 1px solid var(--line);
+  font-size: 10.5px;
+  color: var(--ink-faint);
+  letter-spacing: .06em;
+}
+.footer .num { color: var(--ink-dim); }
+
+/* ── 四、左侧标的 ─────────────────────────────────── */
+.rail-left {
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.rail-head {
+  padding: 14px 16px 9px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  letter-spacing: .16em;
+  color: var(--ink-faint);
+}
+
+.sku {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+}
+.sku + .sku { border-top: 1px solid var(--line); }
+.sku.on     { background: var(--panel-2); border-left-color: var(--copper); }
+
+.sku .tick {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  font-size: 10px;
+  color: var(--ink-faint);
+}
+.sku.on .tick { border-color: rgba(217, 165, 102, .5); color: var(--copper); }
+
+.sku-main { flex: 1; min-width: 0; }
+.sku-main b    { display: block; font-size: 12.5px; font-weight: 500; }
+.sku-main small{ display: block; font-size: 10px; color: var(--ink-faint); margin-top: 2px; }
+
+.sku-quote { text-align: right; }
+.sku-quote .num { font-size: 12.5px; }
+.sku-quote small { display: block; font-size: 10px; margin-top: 2px; }
+
+.rail-note {
+  margin-top: auto;
+  padding: 14px 16px;
+  border-top: 1px solid var(--line);
+  font-size: 10.5px;
+  line-height: 1.7;
+  color: var(--ink-faint);
+}
+.rail-note b { color: var(--ink-dim); font-weight: 400; }
+
+/* ── 五、中间行情 ─────────────────────────────────── */
+
+/* 5.1 报价 */
+.quote {
+  flex: none;
+  display: flex;
+  align-items: flex-end;
+  gap: 26px;
+  padding: 15px 22px 13px;
+  border-bottom: 1px solid var(--line);
+}
+.q-name b    { font-size: 16px; font-weight: 600; }
+.q-name span { font-size: 11px; color: var(--ink-faint); margin-left: 8px; }
+
+.q-price { display: flex; align-items: baseline; gap: 9px; }
+.q-price .num { font-size: 30px; line-height: .9; color: var(--copper); }
+.q-price em   { font-style: normal; font-size: 12px; color: var(--ink-faint); }
+
+.q-chg small {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 10px;
+  color: var(--ink-faint);
+  letter-spacing: .1em;
+}
+.q-chg .num { font-size: 13px; }
+
+.q-meta { margin-left: auto; display: flex; gap: 26px; }
+.q-meta div small {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 10px;
+  color: var(--ink-faint);
+  letter-spacing: .1em;
+}
+.q-meta div .num { font-size: 13px; }
+
+/* 5.2 K 线 */
+.chart-wrap {
+  flex: none;
+  padding: 10px 10px 8px 20px;
+  border-bottom: 1px solid var(--line);
+}
+.chart-h {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2px;
+  font-size: 10px;
+  letter-spacing: .12em;
+  color: var(--ink-faint);
+}
+.chart-h b { font-size: 11px; font-weight: 500; letter-spacing: .06em; color: var(--ink-dim); }
+
+.chart { display: block; width: 100%; height: clamp(170px, 33vh, 330px); }
+
+/* 5.3 下半区：盘口 + 成交 */
+.low-split {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 376px;
+  grid-template-rows: minmax(0, 1fr);   /* 关键：行高锁死，子面板只能在格子内滚动 */
+  min-height: 0;
+}
+
+.panel-h {
+  height: 36px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--line);
+  font-size: 11px;
+  letter-spacing: .14em;
+  color: var(--ink-faint);
+}
+.panel-h span:last-child { letter-spacing: 0; font-size: 10px; }
+
+/* 盘口 */
+.book {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  border-right: 1px solid var(--line);
+}
+.book-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.side-h {
+  flex: none;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 10px 16px 5px;
+  font-size: 12px;
+  color: var(--ink-dim);
+}
+.side-h i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex: none;
+}
+.side-h small { font-size: 10px; color: var(--ink-faint); }
+
+.row {
+  position: relative;
+  flex: none;
+  height: 38px;
+  display: grid;
+  grid-template-columns: 1fr 90px;
+  align-items: center;
+  padding: 0 16px;
+  font-size: 12.5px;
+  line-height: 1.3;
+}
+.row > * { position: relative; z-index: 1; }
+.row :nth-child(n+2) { text-align: right; }
+
+/* 数量色块：宽度表示挂单量 */
+.row .bar {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  right: 0;
+  z-index: 0;
+  background: rgba(200, 106, 82, .09);
+}
+.row.bid .bar { background: rgba(116, 176, 141, .09); }
+
+.row .px  { font-family: var(--font-num); font-variant-numeric: tabular-nums; font-size: 13.5px; }
+.row.ask .px { color: var(--sell); }
+.row.bid .px { color: var(--buy); }
+
+.row .qty { font-family: var(--font-num); color: var(--ink-dim); }
+
+/* 最优买卖那一档稍作强调 */
+.row.best { background: rgba(217, 165, 102, .04); }
+.row.best .px { font-weight: 600; }
+
+.midway {
+  flex: none;
+  margin: 2px 0;
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: var(--ink-faint);
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+  background: rgba(217, 165, 102, .03);
+}
+.midway b { color: var(--copper); font-weight: 500; font-family: var(--font-num); }
+
+.book-foot {
+  flex: none;
+  margin-top: auto;
+  display: flex;
+  gap: 26px;
+  padding: 11px 16px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  color: var(--ink-faint);
+}
+.book-foot b { color: var(--ink-dim); font-weight: 400; font-family: var(--font-num); }
+
+/* 最近成交 */
+.trades { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+
+.cols {
+  flex: none;
+  display: grid;
+  grid-template-columns: 1fr 74px 62px 30px;
+  padding: 7px 16px;
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: var(--ink-faint);
+}
+.cols :nth-child(n+2) { text-align: right; }
+
+.trades-body { flex: 1; min-height: 0; overflow-y: auto; }
+
+.trade {
+  display: grid;
+  grid-template-columns: 1fr 74px 62px 30px;
+  padding: 7px 16px;
+  font-size: 12px;
+}
+.trade :nth-child(n+2) { text-align: right; }
+.trade .t  { font-family: var(--font-num); font-size: 11px; color: var(--ink-faint); }
+.trade .px { font-family: var(--font-num); }
+.trade .q  { font-family: var(--font-num); color: var(--ink-dim); }
+.trade .s  { font-size: 10px; text-align: right; }
+
+/* ── 六、右侧 ─────────────────────────────────────── */
+.rail-right {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--panel);
+  border-left: 1px solid var(--line);
+}
+
+.order-form {
+  flex: none;
+  padding: 14px 16px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 14px;
+  border: 1px solid var(--line);
+}
+.seg button {
+  padding: 9px 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink-faint);
+  font-family: var(--font-ui);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.seg button.on {
+  background: rgba(116, 176, 141, .14);
+  color: var(--buy);
+  box-shadow: inset 0 -1px 0 var(--buy);
+}
+
+.field { margin-bottom: 12px; }
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 10px;
+  letter-spacing: .12em;
+  color: var(--ink-faint);
+}
+
+.input-wrap {
+  display: flex;
+  align-items: center;
+  height: 35px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+}
+.input-wrap input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-num);
+  font-size: 14px;
+}
+.input-wrap span { font-size: 10px; color: var(--ink-faint); }
+
+.calc {
+  display: flex;
+  justify-content: space-between;
+  padding: 9px 0;
+  font-size: 11px;
+  color: var(--ink-faint);
+}
+.calc b { font-family: var(--font-num); font-weight: 400; color: var(--ink-dim); }
+.calc-lined { border-top: 1px solid var(--line-soft); }
+
+.cta {
+  width: 100%;
+  height: 40px;
+  margin-top: 8px;
+  border: 0;
+  background: var(--buy);
+  color: #0F180F;
+  font-family: var(--font-ui);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  cursor: pointer;
+}
+
+.block { border-bottom: 1px solid var(--line); }
+.block-grow {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-bottom: 0;
+}
+
+.myorder {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  font-size: 11.5px;
+}
+.myorder + .myorder { border-top: 1px solid var(--line); }
+
+.myorder .side { font-size: 10px; padding: 2px 5px; border: 1px solid; }
+.myorder .side.b { color: var(--buy);  border-color: rgba(116, 176, 141, .4); }
+.myorder .side.s { color: var(--sell); border-color: rgba(200, 106, 82, .4); }
+
+.myorder .txt { flex: 1; color: var(--ink-dim); }
+.myorder .txt b { font-family: var(--font-num); font-weight: 400; color: var(--ink); }
+
+.kill {
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-faint);
+  font-family: var(--font-ui);
+  font-size: 10.5px;
+  cursor: pointer;
+}
+
+.holding {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 16px;
+  font-size: 12px;
+}
+.holding + .holding { border-top: 1px solid var(--line-soft); }
+.holding .num   { color: var(--ink-dim); }
+.holding small  { font-size: 10px; color: var(--ink-faint); }
+
+.fill {
+  display: grid;
+  grid-template-columns: 66px 1fr 1fr;
+  padding: 8px 16px;
+  font-size: 11.5px;
+}
+.fill + .fill { border-top: 1px solid var(--line-soft); }
+.fill .t { font-family: var(--font-num); font-size: 10.5px; color: var(--ink-faint); }
+.fill .n { color: var(--ink-dim); }
+.fill .p { text-align: right; font-family: var(--font-num); color: var(--ink-dim); }
+
+.rail-foot {
+  margin-top: auto;
+  padding: 12px 16px;
+  border-top: 1px solid var(--line);
+  font-size: 10px;
+  line-height: 1.7;
+  color: var(--ink-faint);
+  letter-spacing: .04em;
+}
+
+/* ── 七、矮屏适配（笔记本 1366×768 之类） ──────────── */
+@media (max-height: 820px) {
+  .chart { height: 176px; }
+  .quote { padding: 10px 22px 9px; gap: 20px; }
+  .q-price .num { font-size: 26px; }
+  .side-h { padding: 7px 16px 4px; }
+  .row { height: 30px; padding: 0 16px; }
+  .midway { padding: 8px 16px; font-size: 11px; }
+  .book-foot { padding: 9px 16px; }
+}
+
+/* ── 八、交互状态 ─────────────────────────────────── */
+.sku { transition: background .15s; }
+.sku:hover { background: rgba(217, 165, 102, .05); }
+.sku:focus-visible { outline: 1px solid var(--copper); outline-offset: -2px; }
+
+.row { cursor: pointer; transition: background .12s; }
+.row:hover { background: rgba(217, 165, 102, .07); }
+
+.seg button { transition: color .15s, background .15s; }
+.seg button:hover { color: var(--ink); }
+
+.cta { transition: filter .15s, transform .06s; }
+.cta:hover { filter: brightness(1.07); }
+.cta:active { transform: translateY(1px); }
+.cta.sell { background: var(--sell); color: #1A0E0B; }
+
+.input-wrap { transition: border-color .15s; }
+.input-wrap:focus-within { border-color: rgba(217, 165, 102, .55); }
+
+.kill { transition: color .15s, border-color .15s; }
+.kill:hover { color: var(--ink); border-color: var(--ink-faint); }
+
+/* 空态 */
+.empty {
+  padding: 14px 16px;
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--ink-faint);
+}
+
+/* 轻提示 */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 54px;
+  z-index: 20;
+  max-width: 560px;
+  padding: 10px 18px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--ink);
+  font-size: 12.5px;
+  line-height: 1.5;
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  pointer-events: none;
+  transition: opacity .18s, transform .18s;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.toast.ok  { border-color: rgba(116, 176, 141, .5); box-shadow: inset 2px 0 0 var(--buy); }
+.toast.bad { border-color: rgba(200, 106, 82, .55); box-shadow: inset 2px 0 0 var(--sell); }
+
+/* 键盘可见性 */
+.cta:focus-visible,
+.kill:focus-visible,
+.seg button:focus-visible {
+  outline: 1px solid var(--copper);
+  outline-offset: 2px;
+}
