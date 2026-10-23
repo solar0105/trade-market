@@ -1,3 +1,4 @@
+import { createChart, CrosshairMode } from 'lightweight-charts';
 import { el } from '../dom.js';
 import { activeSku } from '../state.js';
 import { buildCandles } from '../mock.js';
@@ -10,12 +11,8 @@ export function initChart() {
   const box = el('chart');
   if (!box) return;
 
-  if (typeof LightweightCharts === 'undefined') {
-    box.textContent = '图表库未加载';
-    return;
-  }
 
-  chartApi = LightweightCharts.createChart(box, {
+  chartApi = createChart(box, {
     autoSize: true,
     layout: {
       background: { type: 'solid', color: '#16120E' },
@@ -38,7 +35,7 @@ export function initChart() {
       fixRightEdge: true,
     },
     crosshair: {
-      mode: LightweightCharts.CrosshairMode.Normal,
+      mode: CrosshairMode.Normal,
       vertLine: { color: 'rgba(217,165,102,.30)', width: 1, style: 2, labelBackgroundColor: '#D9A566' },
       horzLine: { color: 'rgba(217,165,102,.30)', width: 1, style: 2, labelBackgroundColor: '#D9A566' },
     },

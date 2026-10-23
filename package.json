@@ -1,0 +1,32 @@
+{
+  "name": "trade-market",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solar0105/trade-market.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/solar0105/trade-market/issues"
+  },
+  "homepage": "https://github.com/solar0105/trade-market#readme",
+  "dependencies": {
+    "dayjs": "^1.11.23",
+    "lightweight-charts": "^4.2.3",
+    "modern-normalize": "^3.0.1"
+  },
+  "devDependencies": {
+    "vite": "^8.2.2"
+  }
+}

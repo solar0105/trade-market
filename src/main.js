@@ -1,3 +1,5 @@
+import 'modern-normalize/modern-normalize.css';
+import './styles.css';
 import { state, activeSku, initState } from './state.js';
 import { switchSku, setSide, placeOrder, cancelOrder } from './actions.js';
 import { el } from './dom.js';

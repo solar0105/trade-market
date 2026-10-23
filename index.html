@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>霜落行会 · 交易行</title>
 
-  <!-- 第三方：CSS 重置（modern-normalize, MIT） -->
-  <link rel="stylesheet" href="vendor/modern-normalize.css">
-  <link rel="stylesheet" href="styles.css">
+ 
+
 </head>
 <body>
 
@@ -141,16 +140,8 @@
     <span id="meta-status">状态 正常</span>
   </footer>
 
-  <!--
-    第三方脚本按顺序加载（defer 保证按书写顺序执行）：
-      dayjs              日期处理        MIT
-      lightweight-charts K 线图表        Apache-2.0，TradingView 出品
-  -->
-  <!-- 轻提示：下单成功 / 被拒绝时说一句人话 -->
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <script src="vendor/dayjs.min.js" defer></script>
-  <script src="vendor/lightweight-charts.standalone.production.js" defer></script>
-  <script type="module" src="src/main.js"></script>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>
