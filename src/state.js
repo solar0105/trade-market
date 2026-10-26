@@ -35,3 +35,21 @@ export function initState() {
     state.markets[sku.id] = buildMarket(sku, 9001 + i * 37);
   });
 }
+
+/* ---------- 订阅：让 React 知道数据变了 ---------- */
+const listeners = new Set();
+let version = 0;
+
+export function subscribe(listener) {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
+export function getVersion() {
+  return version;
+}
+
+export function emit() {
+  version += 1;
+  listeners.forEach((fn) => fn());
+}

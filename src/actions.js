@@ -1,17 +1,19 @@
-import { state, activeSku, availableGold, availableQty } from './state.js';
+import { state, activeSku, availableGold, availableQty, emit } from './state.js';
 import { SKUS } from './mock.js';
 import { fmt } from './format.js';
 
-/** 全部返回 { ok, message }，不碰 DOM —— 这样以后能单独测 */
+/** 全部返回 { ok, message }，不碰 DOM */
 
 export function switchSku(skuId) {
   if (skuId === state.activeSkuId) return null;
   state.activeSkuId = skuId;
+  emit();
   return { ok: true };
 }
 
 export function setSide(side) {
   state.side = side;
+  emit();
 }
 
 export function placeOrder(price, qty) {
@@ -46,6 +48,8 @@ export function placeOrder(price, qty) {
     filled: 0,
   });
 
+  emit();
+
   return {
     ok: true,
     message: isBuy
@@ -59,6 +63,8 @@ export function cancelOrder(id) {
   if (index === -1) return { ok: false, message: '委托不存在' };
 
   const [order] = state.orders.splice(index, 1);
+  emit();
+
   const sku = SKUS.find((s) => s.id === order.skuId);
 
   return { ok: true, message: `已撤单：${sku.name} ${fmt(order.price)} × ${fmt(order.qty)}` };

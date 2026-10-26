@@ -618,3 +618,8 @@ body {
   outline: 1px solid var(--copper);
   outline-offset: 2px;
 }
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
